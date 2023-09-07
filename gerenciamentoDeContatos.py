@@ -83,7 +83,7 @@ class CadastroContatos(QMainWindow):
         self.btn_remover.clicked.connect(self.remover_contato)
 
     def criar_banco(self):
-        conexao = sqlite3.connect('cadastro_contatos.db')
+        conexao = sqlite3.connect('contatos.db')
         cursor = conexao.cursor()
         cursor.execute('''
                 CREATE TABLE IF NOT EXISTS contatos(
@@ -103,7 +103,7 @@ class CadastroContatos(QMainWindow):
         telefone = self.txt_telefone.text()  # Obtenha o número de telefone do campo de entrada
 
         if nome and sobrenome and email and telefone:  # Verifique se todos os campos estão preenchidos
-            conexao = sqlite3.connect('cadastro_contatos.db')
+            conexao = sqlite3.connect('contatos.db')
             cursor = conexao.cursor()
             if self.contato_selecionado is None:
                 cursor.execute('''
@@ -136,7 +136,7 @@ class CadastroContatos(QMainWindow):
 
     def carregar_contatos(self):
         self.lsl_contato.clear()
-        conexao = sqlite3.connect('cadastro_contatos.db')
+        conexao = sqlite3.connect('contatos.db')
         cursor = conexao.cursor()
         cursor.execute('SELECT id, nome, sobrenome, email, telefone FROM contatos')
         contatos = cursor.fetchall()
@@ -158,7 +158,7 @@ class CadastroContatos(QMainWindow):
     def editar_contato(self):
         if self.btn_editar.text() == 'Editar Contato':
             if self.contato_selecionado is not None:
-                conexao = sqlite3.connect('cadastro_contatos.db')
+                conexao = sqlite3.connect('contatos.db')
                 cursor = conexao.cursor()
                 cursor.execute('SELECT nome, sobrenome, email, telefone FROM contatos '
                                'WHERE id = ?', (self.contato_selecionado['id'],))
@@ -200,7 +200,7 @@ class CadastroContatos(QMainWindow):
     def remover_contato(self):
         if self.contato_selecionado is not None:
             if self.validar_remocao():
-                conexao = sqlite3.connect('cadastro_contatos.db')
+                conexao = sqlite3.connect('contatos.db')
                 cursor = conexao.cursor()
                 cursor.execute('DELETE FROM contatos '
                                'WHERE id = ?', (self.contato_selecionado['id']))
